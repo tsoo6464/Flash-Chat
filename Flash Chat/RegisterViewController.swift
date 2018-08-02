@@ -7,15 +7,13 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class RegisterViewController: UIViewController {
-
-    
     //Pre-linked IBOutlets
 
     @IBOutlet var emailTextfield: UITextField!
     @IBOutlet var passwordTextfield: UITextField!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +23,6 @@ class RegisterViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-
-  
     @IBAction func registerPressed(_ sender: AnyObject) {
         guard let email = emailTextfield.text, emailTextfield.text != "" else {
             print("email輸入錯誤")
@@ -36,20 +32,16 @@ class RegisterViewController: UIViewController {
             print("密碼輸入錯誤")
             return
         }
+        SVProgressHUD.show()
         //TODO: Set up a new user on our Firbase database
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if error != nil {
                 print(error!)
             } else {
                 print("Registration Successful!")
+                SVProgressHUD.dismiss()
                 self.performSegue(withIdentifier: "goToChat", sender: self)
             }
         }
-        
-
-        
-        
-    } 
-    
-    
+    }
 }

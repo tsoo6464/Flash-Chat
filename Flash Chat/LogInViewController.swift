@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class LogInViewController: UIViewController {
 
@@ -33,12 +34,14 @@ class LogInViewController: UIViewController {
             print("密碼輸入錯誤")
             return
         }
+        SVProgressHUD.show()
         //TODO: Log in the user
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if error != nil {
                 print(error!)
             } else {
                 print("Log in successful!")
+                SVProgressHUD.dismiss()
                 self.performSegue(withIdentifier: "goToChat", sender: self)
             }
         }
